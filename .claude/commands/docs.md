@@ -67,7 +67,7 @@ Section wajib (update kalau sudah ada, tambah kalau belum):
 
 1. **Header** — Nama, deskripsi 1 kalimat
 2. **Overview** — Untuk siapa (Majelis GKJ Jakarta), apa yang diselesaikan
-3. **Tech Stack** — Tabel: Layer | Technology | Versi (Laravel 11, PostgreSQL 16, Livewire, dompdf)
+3. **Tech Stack** — Tabel: Layer | Technology | Versi (Laravel 12, PostgreSQL 16, Livewire, dompdf)
 4. **Prasyarat** — PHP 8.2+, Composer, Docker (dev), akses cron (produksi)
 5. **Quick Start** — clone → `composer install` → `.env` → `docker compose up -d` → `php artisan migrate --seed` → `php artisan serve`, ≤6 langkah
 6. **Struktur Folder** — tree `app/`, `database/`, `docs/`, `resources/views/`, maksimal 2 level
@@ -101,7 +101,7 @@ Browser (majelis/sekretaris)
            │ php-fpm socket
            ▼
 ┌──────────────────────┐     ┌──────────────────────┐
-│   Laravel 11          │────▶│   PostgreSQL 16       │
+│   Laravel 12          │────▶│   PostgreSQL 16       │
 │   Blade + Livewire    │     │   (database gkjj_notula,│
 │   dompdf (cetak PDF)  │     │    server sama dengan  │
 │   (session/queue/cache│     │    Database-Warga-GKJJ)│
@@ -121,7 +121,7 @@ VPS 2GB (Domainesia) — dipakai bersama Database-Warga-GKJJ
 graph TD
     Client["Browser\n(majelis/sekretaris)"]
     Nginx["Nginx\nreverse proxy"]
-    App["Laravel 11\nBlade + Livewire\ndompdf"]
+    App["Laravel 12\nBlade + Livewire\ndompdf"]
     DB[(PostgreSQL 16\ngkjj_notula)]
     Cron["cron\nschedule:run, queue:work"]
 
