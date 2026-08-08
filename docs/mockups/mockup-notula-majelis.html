@@ -1,0 +1,777 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mockup — Sidang &amp; Notula Majelis GKJ Jakarta</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Zilla+Slab:wght@400;500;600;700&family=Public+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  --tinta:#111E31; --tinta2:#38495E; --tinta3:#5B6E84;
+  --kertas:#E7ECF2; --kartu:#FFFFFF; --garis:#C7D2DE; --garis2:#E0E7EF;
+  --stempel:#7E2129; --stempel-mu:#F3E4E5;
+  --hijau:#235A41; --hijau-mu:#DDEDE4;
+  --emas:#7A560C; --emas-mu:#F6EEDA;
+  --f-judul:'Zilla Slab',Georgia,'Times New Roman',serif;
+  --f-teks:'Public Sans',-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-serif;
+  --f-angka:'IBM Plex Mono',ui-monospace,'Courier New',monospace;
+  --r:10px; --bayang:0 1px 2px rgba(17,30,49,.06),0 8px 24px -12px rgba(17,30,49,.2);
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--kertas);color:var(--tinta);
+  font-family:var(--f-teks);font-size:17px;line-height:1.5}
+h1,h2,h3,h4{font-family:var(--f-judul);margin:0;font-weight:600;letter-spacing:-.01em}
+button{font:inherit;color:inherit;cursor:pointer}
+:focus-visible{outline:3px solid var(--stempel);outline-offset:2px;border-radius:4px}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+
+/* ---------- kerangka peraga ---------- */
+.peraga-bar{position:sticky;top:0;z-index:50;background:var(--tinta);color:#fff;
+  padding:10px 18px;display:flex;flex-wrap:wrap;gap:14px;align-items:center}
+.peraga-bar .merek{font-family:var(--f-judul);font-weight:600;font-size:15px;
+  padding-right:14px;border-right:1px solid rgba(255,255,255,.22);white-space:nowrap}
+.peraga-bar .merek span{display:block;font-family:var(--f-teks);font-weight:400;
+  font-size:11px;letter-spacing:.09em;text-transform:uppercase;color:#A3B6CB}
+.tabs{display:flex;gap:4px;flex-wrap:wrap}
+.tab{background:transparent;border:1px solid rgba(255,255,255,.22);color:#CBD8E6;
+  padding:7px 15px;border-radius:100px;font-size:14px;font-weight:500;transition:.15s}
+.tab:hover{background:rgba(255,255,255,.1);color:#fff}
+.tab[aria-selected=true]{background:#fff;color:var(--tinta);border-color:#fff;font-weight:600}
+.skala-alat{margin-left:auto;display:flex;gap:5px;align-items:center}
+.skala-alat .lbl{font-size:11px;letter-spacing:.09em;text-transform:uppercase;color:#A3B6CB;margin-right:3px}
+.skala-tbl{background:transparent;border:1px solid rgba(255,255,255,.22);color:#CBD8E6;
+  width:34px;height:30px;border-radius:7px;font-weight:700;line-height:1}
+.skala-tbl[aria-pressed=true]{background:#fff;color:var(--tinta);border-color:#fff}
+.nota{background:#DAE2EB;border-bottom:1px solid var(--garis);padding:10px 18px;
+  font-size:14px;color:var(--tinta2)}
+.nota b{color:var(--tinta);font-weight:600}
+.layar{display:none;padding:22px 18px 60px}
+.layar.aktif{display:block}
+.wadah{max-width:1240px;margin:0 auto}
+
+/* ---------- komponen umum ---------- */
+.kartu{background:var(--kartu);border:1px solid var(--garis);border-radius:var(--r);box-shadow:var(--bayang)}
+.kepala-kartu{padding:14px 17px;border-bottom:1px solid var(--garis2);
+  display:flex;align-items:center;justify-content:space-between;gap:12px}
+.kepala-kartu h3{font-size:17px}
+.eyebrow{font-size:11.5px;letter-spacing:.11em;text-transform:uppercase;
+  color:var(--tinta3);font-weight:700;font-family:var(--f-teks)}
+.lencana{display:inline-flex;align-items:center;gap:5px;font-size:12px;font-weight:600;
+  padding:3px 9px;border-radius:100px;white-space:nowrap}
+.l-umum{background:var(--hijau-mu);color:var(--hijau)}
+.l-majelis{background:#DFE7F0;color:var(--tinta2)}
+.l-terbatas{background:var(--stempel-mu);color:var(--stempel)}
+.l-tarik{background:var(--emas-mu);color:var(--emas)}
+.tbl{width:100%;padding:12px 18px;border-radius:8px;border:1px solid var(--tinta);
+  background:var(--tinta);color:#fff;font-weight:600;font-size:17px;transition:.15s}
+.tbl:hover{background:#050D19}
+.tbl-2{background:#fff;color:var(--tinta);border:1px solid var(--garis)}
+.tbl-2:hover{background:#F1F5F9}
+.tbl-kcl{padding:7px 13px;font-size:14px;border-radius:7px;font-weight:600;
+  background:#fff;border:1px solid var(--garis);color:var(--tinta2)}
+.tbl-kcl:hover{background:#F1F5F9;color:var(--tinta)}
+.tbl-stempel{background:var(--stempel);border-color:var(--stempel);color:#fff}
+.tbl-stempel:hover{background:#651A21;color:#fff}
+.angka{font-family:var(--f-angka);font-variant-numeric:tabular-nums}
+.sebut{color:var(--stempel);font-weight:700;background:var(--stempel-mu);
+  padding:1px 6px;border-radius:5px;white-space:nowrap}
+
+/* ---------- 1. MASUK ---------- */
+.masuk-panggung{min-height:76vh;display:grid;place-items:center;padding:26px 0}
+.masuk{width:100%;max-width:426px}
+.masuk-kop{text-align:center;margin-bottom:25px}
+.segel{width:62px;height:62px;margin:0 auto 16px;border-radius:50%;
+  border:2px solid var(--stempel);color:var(--stempel);display:grid;place-items:center;
+  font-family:var(--f-judul);font-weight:700;font-size:21px}
+.masuk-kop h1{font-size:27px;line-height:1.2}
+.masuk-kop p{margin:8px 0 0;color:var(--tinta2);font-size:15.5px}
+.masuk-kartu{padding:27px 25px}
+.label{display:block;font-size:14.5px;font-weight:600;color:var(--tinta2);margin-bottom:7px}
+.isian{width:100%;padding:14px 15px;font:inherit;font-size:18px;color:var(--tinta);
+  border:1px solid var(--garis);border-radius:8px;background:#FCFDFE}
+.isian:focus{outline:none;border-color:var(--tinta);box-shadow:0 0 0 3px #D5E0EC}
+.baris{margin-bottom:18px}
+.bantu{font-size:13.5px;color:var(--tinta3);margin:7px 0 0}
+.masuk-kaki{margin-top:20px;padding-top:18px;border-top:1px solid var(--garis2);
+  font-size:14.5px;color:var(--tinta2);text-align:center;line-height:1.6}
+.masuk-kaki b{color:var(--tinta)}
+.masuk-catatan{margin-top:17px;font-size:13.5px;color:var(--tinta3);text-align:center}
+
+/* ---------- 2. SIDANG BERJALAN ---------- */
+.sidang-kop{background:var(--tinta);color:#fff;border-radius:var(--r) var(--r) 0 0;
+  padding:15px 19px;display:flex;flex-wrap:wrap;gap:16px;align-items:center;justify-content:space-between}
+.sidang-kop h2{font-size:19px;color:#fff}
+.sidang-kop .sub{font-size:13.5px;color:#B0C1D4;margin-top:4px}
+.kop-kanan{display:flex;gap:9px;align-items:center;flex-wrap:wrap}
+.pil{display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,.12);
+  border:1px solid rgba(255,255,255,.2);color:#E1E9F1;padding:6px 12px;
+  border-radius:100px;font-size:13.5px;font-weight:500}
+.pil.hidup{background:#235A41;border-color:#235A41;color:#fff}
+.titik{width:7px;height:7px;border-radius:50%;background:#7BE3AE;
+  animation:denyut 2.2s ease-in-out infinite}
+@keyframes denyut{0%,100%{opacity:1}50%{opacity:.35}}
+.tbl-proyeksi{background:#fff;color:var(--tinta);border:none;padding:7px 15px;
+  border-radius:100px;font-weight:700;font-size:13.5px}
+.tbl-proyeksi:hover{background:#DCE6F0}
+
+.sidang-tubuh{display:grid;grid-template-columns:224px minmax(0,1fr) 274px;
+  background:var(--kartu);border:1px solid var(--garis);border-top:none;
+  border-radius:0 0 var(--r) var(--r);overflow:hidden;box-shadow:var(--bayang)}
+
+.tulang{background:#F3F6FA;border-right:1px solid var(--garis2);padding:16px 0}
+.tulang-jdl{font-size:11px;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--tinta3);font-weight:700;padding:0 16px 12px}
+.art{display:flex;gap:11px;padding:10px 16px;border-left:3px solid transparent}
+.art .rom{font-family:var(--f-judul);font-weight:600;font-size:14.5px;color:var(--tinta3);
+  min-width:26px;padding-top:1px}
+.art .nm{font-size:14.5px;color:var(--tinta2);line-height:1.35}
+.art .cnt{display:block;font-size:12px;color:var(--tinta3);margin-top:2px}
+.art.usai .rom,.art.usai .nm{color:#8D9EB2}
+.art.usai .rom::after{content:'✓';margin-left:4px;color:var(--hijau);font-size:11px}
+.art.kini{background:#fff;border-left-color:var(--stempel)}
+.art.kini .rom{color:var(--stempel)}
+.art.kini .nm{color:var(--tinta);font-weight:600}
+.tulang-tbh{margin:12px 16px 0;width:calc(100% - 32px);padding:9px;font-size:13.5px;
+  border:1px dashed var(--garis);border-radius:7px;background:#fff;color:var(--tinta2);font-weight:500}
+.tulang-tbh:hover{border-color:var(--tinta3);color:var(--tinta)}
+
+.panggung{padding:20px 23px;min-width:0}
+.btr-kop{display:flex;gap:14px;align-items:flex-start;justify-content:space-between;
+  padding-bottom:16px;border-bottom:1px solid var(--garis2)}
+.btr-kop h3{font-size:22px;line-height:1.25;margin-bottom:6px}
+.btr-meta{font-size:14px;color:var(--tinta2);display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.btr-alat{display:flex;gap:7px;flex-shrink:0;flex-wrap:wrap;justify-content:flex-end}
+.masukan{padding:17px 0;border-bottom:1px solid var(--garis2)}
+.pembicara{display:flex;gap:10px;align-items:baseline;margin-bottom:6px;flex-wrap:wrap}
+.pembicara .nama{font-weight:700;font-size:17px}
+.pembicara .jam{font-size:12.5px;color:var(--tinta3)}
+.jenis{font-size:12px;font-weight:600;color:var(--tinta3);border:1px solid var(--garis);
+  padding:1px 8px;border-radius:100px}
+.poin{margin:0;padding-left:22px}
+.poin li{margin-bottom:6px;font-size:17px;line-height:1.55}
+.balasan{margin:12px 0 0 22px;padding:12px 14px;border-left:3px solid var(--garis);
+  background:#F4F7FA;border-radius:0 8px 8px 0}
+.balasan .pembicara .nama{font-size:16px}
+.balasan p{margin:0;font-size:16.5px;color:var(--tinta2);line-height:1.55}
+.aksi-masukan{display:flex;gap:7px;margin-top:10px;flex-wrap:wrap}
+
+.komposer{margin-top:18px;border:1px solid var(--garis);border-radius:var(--r);
+  background:#FAFCFE;padding:15px;position:relative}
+.komposer-kop{display:flex;justify-content:space-between;align-items:center;
+  gap:10px;margin-bottom:10px;flex-wrap:wrap}
+.pembicara-tanda{font-size:14px;color:var(--tinta2)}
+.pembicara-tanda b{color:var(--tinta)}
+.komposer textarea{width:100%;min-height:86px;padding:12px 13px;font:inherit;font-size:17.5px;
+  border:1px solid var(--garis);border-radius:8px;resize:vertical;background:#fff;
+  color:var(--tinta);line-height:1.5}
+.komposer textarea:focus{outline:none;border-color:var(--tinta);box-shadow:0 0 0 3px #D5E0EC}
+.sebut-panel{position:absolute;left:15px;right:15px;z-index:20;background:#fff;
+  border:1px solid var(--tinta);border-radius:9px;box-shadow:0 14px 34px -10px rgba(17,30,49,.34);
+  max-height:252px;overflow:auto;display:none}
+.sebut-panel.buka{display:block}
+.sebut-panel .kepala{padding:8px 13px;font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--tinta3);font-weight:700;border-bottom:1px solid var(--garis2);background:#F7F9FC}
+.sebut-opsi{display:flex;gap:11px;align-items:center;padding:10px 13px;cursor:pointer;
+  border-bottom:1px solid var(--garis2)}
+.sebut-opsi:last-child{border-bottom:none}
+.sebut-opsi.sorot{background:#EDF3FA}
+.sebut-opsi .inisial{width:34px;height:34px;border-radius:50%;background:var(--tinta);color:#fff;
+  display:grid;place-items:center;font-size:13px;font-weight:700;flex-shrink:0}
+.sebut-opsi .nm{font-size:16px;font-weight:600;line-height:1.25}
+.sebut-opsi .rl{font-size:13px;color:var(--tinta3)}
+.sebut-opsi .tag{margin-left:auto;font-size:11.5px;font-weight:700;color:var(--hijau)}
+.sebut-opsi .tag.absen{color:var(--tinta3)}
+.komposer-kaki{display:flex;gap:10px;justify-content:space-between;align-items:center;
+  margin-top:12px;flex-wrap:wrap}
+.simpan-tanda{font-size:13.5px;color:var(--hijau);font-weight:600}
+.petunjuk{font-size:13.5px;color:var(--tinta3)}
+.petunjuk kbd{font-family:var(--f-angka);background:#EDF1F6;border:1px solid var(--garis);
+  border-radius:4px;padding:1px 5px;font-size:12.5px;color:var(--tinta2)}
+
+.sisi{background:#F3F6FA;border-left:1px solid var(--garis2);padding:16px}
+.blok{margin-bottom:20px}
+.blok .eyebrow{display:block;margin-bottom:10px}
+.kuorum{background:#fff;border:1px solid var(--garis);border-radius:9px;padding:14px}
+.kuorum-atas{display:flex;align-items:baseline;gap:8px}
+.kuorum-atas .bsr{font-family:var(--f-angka);font-size:31px;font-weight:600;line-height:1}
+.kuorum-atas .kcl{font-size:14px;color:var(--tinta2)}
+.bar{height:8px;background:#DFE7EF;border-radius:100px;margin:12px 0 9px;overflow:hidden}
+.bar i{display:block;height:100%;width:75%;background:var(--hijau);border-radius:100px}
+.kuorum-ket{display:flex;align-items:center;gap:6px;font-size:13.5px;color:var(--hijau);font-weight:600}
+.hadir-rinci{list-style:none;margin:12px 0 0;padding:0;font-size:14.5px}
+.hadir-rinci li{display:flex;justify-content:space-between;padding:4px 0;color:var(--tinta2)}
+.hadir-rinci b{font-family:var(--f-angka);color:var(--tinta)}
+.tugas{background:#fff;border:1px solid var(--garis);border-radius:9px;padding:12px 13px;margin-bottom:9px}
+.tugas .jdl{font-size:15px;font-weight:600;line-height:1.3}
+.tugas .who{font-size:13.5px;color:var(--tinta2);margin-top:5px}
+.kosong{font-size:14px;color:var(--tinta3);background:#fff;border:1px dashed var(--garis);
+  border-radius:9px;padding:14px;text-align:center;line-height:1.5}
+
+/* ---------- MODE PROYEKTOR ---------- */
+body.proyeksi .peraga-bar,
+body.proyeksi .nota,
+body.proyeksi .tulang,
+body.proyeksi .sisi,
+body.proyeksi .btr-alat,
+body.proyeksi .aksi-masukan,
+body.proyeksi .kop-kanan .pil:not(.hidup){display:none}
+body.proyeksi .layar{padding:0}
+body.proyeksi .wadah{max-width:none}
+body.proyeksi .sidang-kop{border-radius:0;padding:16px 34px}
+body.proyeksi .sidang-kop h2{font-size:25px}
+body.proyeksi .sidang-kop .sub{font-size:16px}
+body.proyeksi .sidang-tubuh{grid-template-columns:1fr;border:none;border-radius:0;
+  box-shadow:none;min-height:calc(100vh - 78px)}
+body.proyeksi .panggung{padding:30px 44px 130px;max-width:1500px;margin:0 auto;width:100%}
+body.proyeksi .btr-kop h3{font-size:42px;line-height:1.15}
+body.proyeksi .btr-kop .eyebrow{font-size:16px}
+body.proyeksi .btr-meta{font-size:20px}
+body.proyeksi .masukan{padding:26px 0}
+body.proyeksi .pembicara .nama{font-size:28px}
+body.proyeksi .pembicara .jam{font-size:17px}
+body.proyeksi .jenis{font-size:16px;padding:2px 12px}
+body.proyeksi .poin li{font-size:27px;line-height:1.5;margin-bottom:11px}
+body.proyeksi .balasan{margin-left:32px;padding:18px 22px;border-left-width:5px}
+body.proyeksi .balasan .pembicara .nama{font-size:24px}
+body.proyeksi .balasan p{font-size:25px}
+body.proyeksi .sebut{padding:2px 9px}
+body.proyeksi .komposer{position:fixed;left:0;right:0;bottom:0;margin:0;border-radius:0;
+  border-left:none;border-right:none;border-bottom:none;border-top:2px solid var(--tinta);
+  padding:16px 44px;background:#F5F8FB;z-index:30}
+body.proyeksi .komposer textarea{min-height:64px;font-size:25px;line-height:1.45}
+body.proyeksi .komposer-kop{margin-bottom:8px}
+body.proyeksi .pembicara-tanda{font-size:19px}
+body.proyeksi .sebut-panel{left:44px;right:44px;bottom:100%;margin-bottom:9px}
+body.proyeksi .sebut-opsi .nm{font-size:21px}
+body.proyeksi .sebut-opsi .rl{font-size:16px}
+body.proyeksi .sebut-opsi .inisial{width:42px;height:42px;font-size:16px}
+body.proyeksi .simpan-tanda,body.proyeksi .petunjuk{font-size:16px}
+.keluar-proyeksi{display:none}
+body.proyeksi .keluar-proyeksi{display:inline-flex}
+
+.waspada{display:none;align-items:center;gap:12px;background:var(--stempel);color:#fff;
+  padding:12px 34px;font-size:17px;font-weight:600}
+.waspada.tampil{display:flex}
+.waspada .tbl-kcl{background:rgba(255,255,255,.16);border-color:rgba(255,255,255,.4);color:#fff}
+.waspada .tbl-kcl:hover{background:rgba(255,255,255,.28);color:#fff}
+
+/* ---------- 3. PERSIAPAN ---------- */
+.siap-kop{display:flex;flex-wrap:wrap;gap:15px;justify-content:space-between;
+  align-items:flex-end;margin-bottom:20px}
+.siap-kop h2{font-size:25px}
+.siap-kop .sub{color:var(--tinta2);font-size:15px;margin-top:5px}
+.siap-alat{display:flex;gap:8px;flex-wrap:wrap}
+.siap-tubuh{display:grid;grid-template-columns:minmax(0,1fr) 340px;gap:20px;align-items:start}
+.art-blok{border-bottom:1px solid var(--garis2)}
+.art-blok:last-child{border-bottom:none}
+.art-kepala{display:flex;gap:12px;align-items:center;padding:13px 17px;background:#F6F9FC}
+.art-kepala .rom{font-family:var(--f-judul);font-weight:700;font-size:15px;color:var(--stempel);min-width:28px}
+.art-kepala h4{font-size:16.5px;flex:1}
+.butir{display:flex;gap:12px;padding:12px 17px 12px 45px;border-top:1px solid var(--garis2);align-items:flex-start}
+.butir:hover{background:#FAFCFE}
+.pegang{color:#AEBCCB;cursor:grab;font-size:16px;line-height:1.3;user-select:none}
+.butir-isi{flex:1;min-width:0}
+.butir-isi .jdl{font-size:16.5px;font-weight:500;line-height:1.35}
+.butir-isi .met{font-size:13.5px;color:var(--tinta2);margin-top:5px;
+  display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.tbh-butir{display:block;width:calc(100% - 34px);margin:10px 17px 14px 45px;padding:10px;
+  border:1px dashed var(--garis);border-radius:7px;background:#fff;
+  font-size:14.5px;color:var(--tinta3);font-weight:500;text-align:left}
+.tbh-butir:hover{border-color:var(--tinta3);color:var(--tinta)}
+.tarikan{background:var(--emas-mu);border:1px solid #E3D2AE;border-radius:9px;
+  padding:13px 14px;margin:12px 17px 14px 45px}
+.tarikan p{margin:0 0 10px;font-size:14px;color:var(--emas);font-weight:700}
+.tarikan .brs{background:#fff;border:1px solid #E3D2AE;border-radius:7px;padding:10px 12px;
+  font-size:15px;display:flex;justify-content:space-between;gap:12px;align-items:center}
+.tarikan .brs .asal{font-size:13px;color:var(--tinta3);margin-top:4px}
+.wa{padding:16px 17px}
+.wa-layar{background:#EAE1D7;border-radius:9px;padding:14px;max-height:404px;overflow:auto}
+.wa-gel{background:#fff;border-radius:9px 9px 9px 3px;padding:14px 15px;
+  font-size:14.5px;line-height:1.62;white-space:pre-wrap;color:#0C1A11;
+  box-shadow:0 1px 2px rgba(0,0,0,.1)}
+.wa-jam{font-size:12px;color:#75837A;text-align:right;margin-top:8px;font-family:var(--f-angka)}
+.wa-kaki{display:flex;gap:9px;margin-top:14px}
+.wa-kaki .tbl{flex:1;font-size:15.5px;padding:11px}
+.cek{padding:16px 17px;font-size:14.5px}
+.cek ul{list-style:none;margin:0;padding:0}
+.cek li{display:flex;gap:10px;padding:8px 0;border-bottom:1px solid var(--garis2);align-items:flex-start}
+.cek li:last-child{border-bottom:none}
+.cek .tik{color:var(--hijau);font-weight:700}
+.cek .blm{color:var(--emas);font-weight:700}
+.cek .lbl{flex:1;color:var(--tinta2)}
+
+@media(max-width:1120px){
+  .sidang-tubuh{grid-template-columns:194px minmax(0,1fr)}
+  .sisi{grid-column:1/-1;border-left:none;border-top:1px solid var(--garis2)}
+  .siap-tubuh{grid-template-columns:1fr}
+}
+@media(max-width:760px){
+  .layar{padding:15px 12px 50px}
+  .sidang-tubuh{grid-template-columns:1fr}
+  .tulang{border-right:none;border-bottom:1px solid var(--garis2)}
+  .butir{padding-left:17px}
+  .tbh-butir,.tarikan{margin-left:17px;width:calc(100% - 34px)}
+  .btr-kop{flex-direction:column}
+  body.proyeksi .panggung{padding:20px 18px 150px}
+  body.proyeksi .btr-kop h3{font-size:29px}
+  body.proyeksi .poin li{font-size:21px}
+  body.proyeksi .komposer{padding:13px 18px}
+  body.proyeksi .sebut-panel{left:18px;right:18px}
+}
+</style>
+
+<div class="peraga-bar">
+  <div class="merek">Sidang &amp; Notula Majelis<span>GKJ Jakarta — mockup v0.2</span></div>
+  <div class="tabs" role="tablist">
+    <button class="tab" role="tab" aria-selected="true" data-layar="masuk">Masuk</button>
+    <button class="tab" role="tab" aria-selected="false" data-layar="sidang">Sidang berjalan</button>
+    <button class="tab" role="tab" aria-selected="false" data-layar="siap">Persiapan materi</button>
+  </div>
+  <div class="skala-alat">
+    <span class="lbl">Ukuran huruf</span>
+    <button class="skala-tbl" data-skala="1" aria-pressed="true">A</button>
+    <button class="skala-tbl" data-skala="1.15" aria-pressed="false" style="font-size:18px">A</button>
+    <button class="skala-tbl" data-skala="1.3" aria-pressed="false" style="font-size:20px">A</button>
+  </div>
+</div>
+<div class="nota" id="nota"></div>
+
+<!-- ============ 1. MASUK ============ -->
+<section class="layar aktif" id="l-masuk">
+  <div class="masuk-panggung">
+    <div class="masuk">
+      <div class="masuk-kop">
+        <div class="segel">GKJ</div>
+        <h1>Sidang &amp; Notula Majelis</h1>
+        <p>Gereja Kristen Jawa Jakarta</p>
+      </div>
+      <div class="kartu masuk-kartu">
+        <div class="baris">
+          <label class="label" for="hp">Nomor HP</label>
+          <input class="isian angka" id="hp" type="tel" inputmode="numeric" value="0812 9045 7731">
+          <p class="bantu">Nomor yang terdaftar di sekretariat majelis.</p>
+        </div>
+        <div class="baris">
+          <label class="label" for="sandi">Kata sandi</label>
+          <input class="isian" id="sandi" type="password" value="••••••••••">
+        </div>
+        <button class="tbl">Masuk</button>
+        <div class="masuk-kaki">
+          Lupa kata sandi? Hubungi sekretaris majelis,<br>
+          <b>Pnt. Jennie PS</b> — 0813 8877 2140
+        </div>
+      </div>
+      <p class="masuk-catatan">Akun dibuat oleh sekretariat. Tidak ada pendaftaran mandiri.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 2. SIDANG BERJALAN ============ -->
+<section class="layar" id="l-sidang">
+  <div class="wadah">
+    <div class="sidang-kop">
+      <div>
+        <h2>Sidang MPL ke-<span class="angka">1.027</span></h2>
+        <div class="sub">Jumat, 7 Agustus 2026 · Ruang Pra-Remaja Lt.1 · Notulis: Pnt. Jennie PS</div>
+      </div>
+      <div class="kop-kanan">
+        <span class="pil hidup"><span class="titik"></span> Berjalan · <span class="angka">19:52</span></span>
+        <span class="pil">Mulai <span class="angka">19:34</span></span>
+        <button class="tbl-proyeksi" id="tbl-proyeksi">Mode proyektor</button>
+        <button class="tbl-proyeksi keluar-proyeksi" id="keluar-proyeksi">Keluar dari mode proyektor</button>
+      </div>
+    </div>
+
+    <div class="waspada" id="waspada">
+      <span>⚠</span>
+      <span>Butir ini <b>Terbatas MPH</b>. Layar sedang ditampilkan ke ruangan.</span>
+      <button class="tbl-kcl" style="margin-left:auto" id="tutup-waspada">Sembunyikan isi</button>
+    </div>
+
+    <div class="sidang-tubuh">
+      <nav class="tulang">
+        <div class="tulang-jdl">Artikel</div>
+        <div class="art usai"><span class="rom">I</span><span class="nm">Pembukaan</span></div>
+        <div class="art usai"><span class="rom">II</span><span class="nm">Presensi peserta sidang</span></div>
+        <div class="art kini"><span class="rom">III</span>
+          <span class="nm">Laporan &amp; presentasi<span class="cnt">butir 4 dari 7</span></span></div>
+        <div class="art"><span class="rom">IV</span>
+          <span class="nm">Tindak lanjut keputusan<span class="cnt">1 butir</span></span></div>
+        <div class="art"><span class="rom">V</span><span class="nm">Materi Ministerium</span></div>
+        <div class="art"><span class="rom">VI</span>
+          <span class="nm">Warnasari<span class="cnt">2 butir</span></span></div>
+        <div class="art"><span class="rom">VII</span><span class="nm">Penutup</span></div>
+        <button class="tulang-tbh">+ Butir Warnasari dadakan</button>
+      </nav>
+
+      <div class="panggung">
+        <div class="btr-kop">
+          <div>
+            <div class="eyebrow">Artikel III · Butir 4</div>
+            <h3>Laporan keuangan: Juli 2026</h3>
+            <div class="btr-meta">Pelapor: Dkn. Yudi · Bendahara
+              <span class="lencana l-umum">Umum</span></div>
+          </div>
+          <div class="btr-alat">
+            <button class="tbl-kcl">Lampiran (2)</button>
+            <button class="tbl-kcl tbl-stempel">Butir selesai</button>
+          </div>
+        </div>
+
+        <div class="masukan">
+          <div class="pembicara">
+            <span class="nama">Pnt. Haryanto</span>
+            <span class="jenis">Pertanyaan</span>
+            <span class="jam angka">19:41</span>
+          </div>
+          <ol class="poin">
+            <li>Realisasi iuran ke Klasis JBT sampai Juli baru berapa persen?</li>
+            <li>Penggalangan dana videotron perlu laporan terpisah, jangan dicampur pos umum.</li>
+          </ol>
+          <div class="balasan">
+            <div class="pembicara"><span class="nama">Respon — Dkn. Yudi</span><span class="jam angka">19:44</span></div>
+            <p>Terserap 62%. Laporan videotron akan dipisah mulai laporan Agustus.</p>
+          </div>
+          <div class="aksi-masukan">
+            <button class="tbl-kcl">+ Balasan</button>
+            <button class="tbl-kcl">Sunting</button>
+          </div>
+        </div>
+
+        <div class="masukan">
+          <div class="pembicara">
+            <span class="nama">Pnt. Kurniawan</span>
+            <span class="jenis">Usulan</span>
+            <span class="jam angka">19:49</span>
+          </div>
+          <ol class="poin">
+            <li>Optimalisasi aset perlu masuk laporan bulanan, bukan hanya saat MuKer.</li>
+            <li>Mohon <span class="sebut">@Dkn. Yudi</span> menyiapkan format ringkasnya.</li>
+          </ol>
+          <div class="aksi-masukan">
+            <button class="tbl-kcl">+ Balasan</button>
+            <button class="tbl-kcl tbl-stempel">→ Jadikan kesimpulan</button>
+          </div>
+        </div>
+
+        <div class="komposer">
+          <div class="komposer-kop">
+            <span class="eyebrow">Catat masukan</span>
+            <span class="pembicara-tanda" id="tanda-pembicara">Ketik <b>@</b> untuk memilih pembicara</span>
+          </div>
+          <div class="sebut-panel" id="sebut-panel">
+            <div class="kepala" id="sebut-kepala">Peserta sidang</div>
+            <div id="sebut-daftar"></div>
+          </div>
+          <textarea id="komposer-teks" placeholder="Ketik @ lalu nama pembicara, misalnya @har — daftar nama akan muncul."></textarea>
+          <div class="komposer-kaki">
+            <span class="petunjuk"><kbd>@</kbd> sebut nama · <kbd>↑</kbd><kbd>↓</kbd> pilih · <kbd>Enter</kbd> sisipkan</span>
+            <div style="display:flex;gap:9px;align-items:center;flex-wrap:wrap">
+              <span class="simpan-tanda">✓ Tersimpan otomatis 19:52</span>
+              <button class="tbl tbl-2" style="width:auto;padding:10px 19px;font-size:15.5px">Catat masukan</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <aside class="sisi">
+        <div class="blok">
+          <span class="eyebrow">Kehadiran</span>
+          <div class="kuorum">
+            <div class="kuorum-atas"><span class="bsr">36</span><span class="kcl">dari 48 anggota</span></div>
+            <div class="bar"><i></i></div>
+            <div class="kuorum-ket">✓ Kuorum terpenuhi — tepat pada ambang 3/4 (36)</div>
+            <ul class="hadir-rinci">
+              <li><span>Hadir</span><b>36</b></li>
+              <li><span>Izin</span><b>6</b></li>
+              <li><span>Sakit</span><b>2</b></li>
+              <li><span>Tanpa keterangan</span><b>4</b></li>
+              <li><span>Undangan &amp; peninjau</span><b>4</b></li>
+            </ul>
+            <button class="tbl-kcl" style="width:100%;margin-top:12px">Ubah presensi</button>
+          </div>
+        </div>
+        <div class="blok">
+          <span class="eyebrow">Kesimpulan sidang ini</span>
+          <div class="tugas">
+            <div class="jdl">Persiapan Sakramen digabung Rama A–B–C</div>
+            <div class="who">Kesepakatan · Artikel III butir 7</div>
+          </div>
+          <div class="tugas">
+            <div class="jdl">Panitia Bulan Kebudayaan diberi tambahan pagu</div>
+            <div class="who">Perlu SK · PJ: Pnt. Ernanto · tenggat 4 Sep</div>
+          </div>
+        </div>
+        <div class="blok">
+          <span class="eyebrow">Belum dibahas</span>
+          <div class="kosong">3 butir Artikel III tersisa,<br>lalu Artikel IV.</div>
+        </div>
+      </aside>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 3. PERSIAPAN MATERI ============ -->
+<section class="layar" id="l-siap">
+  <div class="wadah">
+    <div class="siap-kop">
+      <div>
+        <div class="eyebrow">Draf — belum diedarkan</div>
+        <h2>Sidang MPL ke-<span class="angka">1.027</span></h2>
+        <div class="sub">Jumat, 7 Agustus 2026 · 19.30 WIB · Ruang Pra-Remaja Lt.1</div>
+      </div>
+      <div class="siap-alat">
+        <button class="tbl-kcl">Ganti template artikel</button>
+        <button class="tbl-kcl">Pratinjau agenda</button>
+        <button class="tbl tbl-2" style="width:auto;padding:10px 18px;font-size:15.5px">Simpan draf</button>
+      </div>
+    </div>
+
+    <div class="siap-tubuh">
+      <div class="kartu">
+        <div class="kepala-kartu">
+          <h3>Kerangka artikel</h3><span class="eyebrow">7 artikel · 11 butir</span>
+        </div>
+
+        <div class="art-blok"><div class="art-kepala"><span class="rom">I</span><h4>Pembukaan</h4></div></div>
+        <div class="art-blok"><div class="art-kepala"><span class="rom">II</span><h4>Presensi peserta sidang</h4></div></div>
+
+        <div class="art-blok">
+          <div class="art-kepala"><span class="rom">III</span><h4>Laporan &amp; presentasi</h4>
+            <span class="eyebrow">7 butir</span></div>
+          <div class="butir"><span class="pegang">⣿</span><div class="butir-isi">
+            <div class="jdl">1. Pisah &amp; sambut Majelis</div>
+            <div class="met"><span class="lencana l-umum">Umum</span> Pelapor: Pnt. Jennie PS</div></div></div>
+          <div class="butir"><span class="pegang">⣿</span><div class="butir-isi">
+            <div class="jdl">2. Presentasi Panitia Bulan Kebudayaan &amp; Kebangsaan</div>
+            <div class="met"><span class="lencana l-umum">Umum</span> Pelapor: Pnt. Ernanto · 1 lampiran</div></div></div>
+          <div class="butir"><span class="pegang">⣿</span><div class="butir-isi">
+            <div class="jdl">4. Laporan keuangan: Juli 2026</div>
+            <div class="met"><span class="lencana l-umum">Umum</span> Pelapor: Dkn. Yudi · 2 lampiran</div></div></div>
+          <div class="butir"><span class="pegang">⣿</span><div class="butir-isi">
+            <div class="jdl">6. Usulan rencana pemenuhan kebutuhan Emeritas Pdt. Neny</div>
+            <div class="met"><span class="lencana l-terbatas">Terbatas MPH</span> Tidak ditayangkan ke ruangan</div></div></div>
+          <button class="tbh-butir">+ Tambah butir ke Artikel III</button>
+        </div>
+
+        <div class="art-blok">
+          <div class="art-kepala"><span class="rom">IV</span>
+            <h4>Tindak lanjut keputusan MPH &amp; sidang MPL sebelumnya</h4>
+            <span class="lencana l-tarik">Terisi otomatis</span></div>
+          <div class="tarikan">
+            <p>Ditarik dari tindak lanjut yang belum tuntas</p>
+            <div class="brs">
+              <div>
+                <div>Re-schedule Public Speaking: 12 atau 19 Sept 2026</div>
+                <div class="asal">Sidang MPL ke-1.026 · PJ: Pnt. Bambang · lewat tenggat 3 hari</div>
+              </div>
+              <button class="tbl-kcl">Keluarkan</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="art-blok">
+          <div class="art-kepala"><span class="rom">V</span><h4>Materi Ministerium</h4></div>
+          <button class="tbh-butir">+ Tambah butir ke Artikel V</button>
+        </div>
+
+        <div class="art-blok">
+          <div class="art-kepala"><span class="rom">VI</span><h4>Warnasari</h4><span class="eyebrow">2 butir</span></div>
+          <div class="butir"><span class="pegang">⣿</span><div class="butir-isi">
+            <div class="jdl">1. Usulan optimasi Pastori Kedondong</div>
+            <div class="met"><span class="lencana l-majelis">Majelis</span> Diusulkan: Pnt. Maryono</div></div></div>
+          <div class="butir"><span class="pegang">⣿</span><div class="butir-isi">
+            <div class="jdl">2. Info LP4WG: sosialisasi survey pemetaan ekonomi jemaat — 9/8</div>
+            <div class="met"><span class="lencana l-umum">Umum</span> Pelapor: Budi Fajar · peninjau</div></div></div>
+          <button class="tbh-butir">+ Tambah butir ke Artikel VI</button>
+        </div>
+
+        <div class="art-blok">
+          <div class="art-kepala"><span class="rom">VII</span><h4>Penutup</h4></div>
+          <div class="butir" style="padding-left:45px"><div class="butir-isi">
+            <div class="met" style="margin-top:0">Sensoramorun &amp; Doa Penutup</div></div></div>
+        </div>
+      </div>
+
+      <div>
+        <div class="kartu" style="margin-bottom:20px">
+          <div class="kepala-kartu"><h3>Undangan WhatsApp</h3><span class="eyebrow">Tersusun otomatis</span></div>
+          <div class="wa">
+            <div class="wa-layar">
+              <div class="wa-gel">Jakarta, 5 Agustus 2026
+Salam dalam kasih Kristus,
+
+Kami mengundang Bapak dan Ibu anggota Majelis Pekerja Harian (MPH) dan Majelis Pekerja Lengkap (MPL) untuk hadir pada Sidang MPL ke-1.027 sbb:
+
+Hari/tanggal: Jumat, 7 Agustus 2026
+Pukul: 19.30 WIB - selesai
+Tempat: Ruang Pra-Remaja, Lt.1, GKJ Jakarta
+
+AGENDA MPL ke-1.027
+Artikel I. Pembukaan
+Artikel II. Presensi peserta sidang
+Artikel III. Laporan &amp; presentasi
+ 1. Pisah &amp; sambut Majelis
+ 2. Presentasi Panitia Bulan Kebudayaan &amp; Kebangsaan
+ …
+Artikel IV. Tindak lanjut keputusan MPH &amp; sidang MPL sebelumnya
+Artikel V. Materi Ministerium
+Artikel VI. Warnasari
+Artikel VII. Penutup
+
+Mohon kehadiran 30 menit lebih awal - pukul 19.00 WIB, rapat akan diawali dengan makan malam bersama.
+PIC konsumsi: Rama C
+
+Kami tunggu kehadirannya, terimakasih.
+Pnt. Jennie PS</div>
+              <div class="wa-jam">belum dikirim</div>
+            </div>
+            <div class="wa-kaki">
+              <button class="tbl">Salin teks</button>
+              <button class="tbl tbl-2">Buka WhatsApp</button>
+            </div>
+            <p class="bantu" style="text-align:center;margin-top:12px">
+              Butir terbatas hanya tampil judulnya. Tandai sudah dikirim setelah menempel ke grup.</p>
+          </div>
+        </div>
+
+        <div class="kartu">
+          <div class="kepala-kartu"><h3>Siap diedarkan?</h3></div>
+          <div class="cek">
+            <ul>
+              <li><span class="tik">✓</span><span class="lbl">Tanggal, jam, dan tempat terisi</span></li>
+              <li><span class="tik">✓</span><span class="lbl">Nomor sidang otomatis — deret MPL</span></li>
+              <li><span class="tik">✓</span><span class="lbl">Tindak lanjut sidang lalu sudah ditarik</span></li>
+              <li><span class="blm">!</span><span class="lbl">Artikel V belum berisi butir</span></li>
+              <li><span class="blm">!</span><span class="lbl">Butir 6 belum punya pelapor</span></li>
+            </ul>
+            <button class="tbl" style="margin-top:14px">Edarkan undangan</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+/* ---------- data peserta ---------- */
+const ANGGOTA=[
+ {n:'Pdt. Neny',r:'Pendeta · Ministerium',h:1},
+ {n:'Pdt. Rudi Hartono',r:'Pendeta',h:1},
+ {n:'Pnt. Jennie PS',r:'Sekretaris Majelis',h:1},
+ {n:'Pnt. Haryanto',r:'Penatua · Rama A',h:1},
+ {n:'Pnt. Kurniawan',r:'Penatua · Bidang Sarana',h:1},
+ {n:'Pnt. Bambang Setyo',r:'Penatua · Rama B',h:1},
+ {n:'Pnt. Ernanto',r:'Penatua · Panitia Kebudayaan',h:1},
+ {n:'Pnt. Maryono',r:'Penatua · Rama C',h:1},
+ {n:'Pnt. Sri Wahyuni',r:'Penatua · Komisi Ibadah',h:1},
+ {n:'Dkn. Yudi',r:'Diaken · Bendahara',h:1},
+ {n:'Dkn. Ratna Puspita',r:'Diaken · Komisi Doa',h:1},
+ {n:'Dkn. Agus Wibowo',r:'Diaken · Rama A',h:0},
+ {n:'Vik. Danang',r:'Vikaris',h:1},
+ {n:'Budi Fajar',r:'Peninjau · LP4WG',h:1}
+];
+const inisial=n=>n.replace(/^(Pdt|Pnt|Dkn|Vik)\.\s*/,'').split(/\s+/).slice(0,2).map(w=>w[0]).join('').toUpperCase();
+
+/* ---------- tab ---------- */
+const NOTA={
+ masuk:'<b>Masuk.</b> Nomor HP sebagai identitas — bukan email. Tanpa tautan daftar dan tanpa reset sandi otomatis, karena akun dibuat sekretariat dan pemulihan sandi lewat admin.',
+ sidang:'<b>Sidang berjalan.</b> Ketik <b>@</b> lalu beberapa huruf nama untuk memilih pembicara. Tekan <b>Mode proyektor</b> untuk melihat tampilan yang ditembakkan ke infocus — panel samping dan tombol menghilang, huruf membesar.',
+ siap:'<b>Persiapan materi.</b> Artikel IV terisi sendiri dari tindak lanjut yang belum tuntas, dan teks undangan WhatsApp tersusun mengikuti format yang sudah dipakai.'};
+const tabs=document.querySelectorAll('.tab'),nota=document.getElementById('nota');
+function pilih(k){
+ tabs.forEach(t=>t.setAttribute('aria-selected',String(t.dataset.layar===k)));
+ document.querySelectorAll('.layar').forEach(s=>s.classList.toggle('aktif',s.id==='l-'+k));
+ nota.innerHTML=NOTA[k];window.scrollTo(0,0);
+}
+tabs.forEach(t=>t.addEventListener('click',()=>pilih(t.dataset.layar)));
+
+/* ---------- ukuran huruf ---------- */
+document.querySelectorAll('.skala-tbl').forEach(b=>b.addEventListener('click',()=>{
+ document.querySelectorAll('.skala-tbl').forEach(x=>x.setAttribute('aria-pressed','false'));
+ b.setAttribute('aria-pressed','true');
+ document.querySelectorAll('.layar').forEach(s=>s.style.zoom=b.dataset.skala);
+}));
+
+/* ---------- mode proyektor ---------- */
+const bodi=document.body;
+document.getElementById('tbl-proyeksi').addEventListener('click',()=>{
+ bodi.classList.add('proyeksi');window.scrollTo(0,0);});
+document.getElementById('keluar-proyeksi').addEventListener('click',()=>{
+ bodi.classList.remove('proyeksi');window.scrollTo(0,0);});
+document.addEventListener('keydown',e=>{
+ if(e.key==='Escape'&&bodi.classList.contains('proyeksi')&&!panel.classList.contains('buka'))
+   bodi.classList.remove('proyeksi');});
+document.getElementById('tutup-waspada').addEventListener('click',()=>
+ document.getElementById('waspada').classList.remove('tampil'));
+
+/* ---------- penyebut @ ---------- */
+const ta=document.getElementById('komposer-teks'),
+      panel=document.getElementById('sebut-panel'),
+      daftar=document.getElementById('sebut-daftar'),
+      kepala=document.getElementById('sebut-kepala'),
+      tanda=document.getElementById('tanda-pembicara');
+let hasil=[],sorot=0,mulai=-1;
+
+function tutup(){panel.classList.remove('buka');hasil=[];mulai=-1;}
+
+function gambar(q){
+ daftar.innerHTML='';
+ kepala.textContent=q?('Cocok dengan "'+q+'"'):'Peserta sidang';
+ if(!hasil.length){
+   daftar.innerHTML='<div class="sebut-opsi"><div><div class="nm">Tidak ada yang cocok</div>'+
+     '<div class="rl">Tekan Esc lalu ketik nama secara manual</div></div></div>';
+   return;}
+ hasil.forEach((a,i)=>{
+   const d=document.createElement('div');
+   d.className='sebut-opsi'+(i===sorot?' sorot':'');
+   d.innerHTML='<div class="inisial">'+inisial(a.n)+'</div><div><div class="nm">'+a.n+
+     '</div><div class="rl">'+a.r+'</div></div>'+
+     (a.h?'<div class="tag">Hadir</div>':'<div class="tag absen">Izin</div>');
+   d.addEventListener('mousedown',e=>{e.preventDefault();sisip(i);});
+   daftar.appendChild(d);});
+}
+
+function sisip(i){
+ const a=hasil[i];if(!a)return;
+ const pos=ta.selectionStart,
+       depan=ta.value.slice(0,mulai)+'@'+a.n+' ',
+       blkg=ta.value.slice(pos);
+ ta.value=depan+blkg;
+ const c=depan.length;ta.setSelectionRange(c,c);
+ tutup();ta.focus();perbaruiTanda();
+}
+
+function perbaruiTanda(){
+ const m=ta.value.match(/@([^@\n]+?)(?=\s{2}|\n|$|[,.;:])/);
+ const nama=(ta.value.match(/@([A-Za-zÀ-ÿ. ]+)/)||[])[1];
+ if(nama){
+   const cocok=ANGGOTA.find(a=>nama.trim().startsWith(a.n));
+   tanda.innerHTML=cocok?('Pembicara: <b>'+cocok.n+'</b> — '+cocok.r)
+     :'Ketik <b>@</b> untuk memilih pembicara';
+ } else tanda.innerHTML='Ketik <b>@</b> untuk memilih pembicara';
+}
+
+ta.addEventListener('input',()=>{
+ const pos=ta.selectionStart,depan=ta.value.slice(0,pos),m=depan.match(/@([^\s@]*)$/);
+ perbaruiTanda();
+ if(!m){tutup();return;}
+ mulai=pos-m[0].length;
+ const q=m[1].toLowerCase();
+ hasil=ANGGOTA.filter(a=>a.n.toLowerCase().replace(/^(pdt|pnt|dkn|vik)\.\s*/,'').includes(q)
+   ||a.n.toLowerCase().includes(q)).slice(0,7);
+ sorot=0;gambar(m[1]);panel.classList.add('buka');
+});
+
+ta.addEventListener('keydown',e=>{
+ if(!panel.classList.contains('buka'))return;
+ if(e.key==='ArrowDown'){e.preventDefault();sorot=(sorot+1)%Math.max(hasil.length,1);gambar('');}
+ else if(e.key==='ArrowUp'){e.preventDefault();sorot=(sorot-1+hasil.length)%Math.max(hasil.length,1);gambar('');}
+ else if(e.key==='Enter'||e.key==='Tab'){if(hasil.length){e.preventDefault();sisip(sorot);}}
+ else if(e.key==='Escape'){e.preventDefault();e.stopPropagation();tutup();}
+});
+ta.addEventListener('blur',()=>setTimeout(tutup,120));
+
+pilih('masuk');
+</script>
