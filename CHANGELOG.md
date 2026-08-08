@@ -3,40 +3,32 @@
 
 ---
 
-## [2026-08-08 09:02 WIB] — Sprint 0 | ⚠️ AT RISK
+## [2026-08-08 09:45 WIB] — Sprint 0 | ✅ DONE
 
 **Project**: Aplikasi Notula Rapat GKJ Jakarta
-**Reviewed**: Sabtu, 8 Agustus 2026 pukul 09:02 WIB
-**Reviewed by**: Claude Code PM Agent
+**Reviewed by**: Claude Code Sprint Agent
 
-### 📊 Sprint Status
-- **Current**: Sprint 0 — Fondasi Proyek & Lingkungan
-- **Progress**: 0/9 tasks selesai (0%)
-- **Timeline**: ⚠️ AT RISK — bukan karena terlambat, tapi karena belum ada satu pun prasyarat teknis Sprint 0 yang terpasang (lihat Blockers)
+### ✅ Sprint 0 Selesai: Fondasi Proyek & Lingkungan
+- T0.1 — git init, remote GitHub, commit awal
+- T0.2 — scaffold Laravel **12** (dinaikkan dari 11 — EOL, lihat Blockers), digabung dengan `database/` kustom
+- T0.3 — Livewire v4.3.5 + laravel-dompdf v3.1.2 terpasang
+- T0.4 — Postgres 16 lokal via Docker (port 5437, hindari bentrok)
+- T0.5 — `.env` terkonfigurasi, koneksi Postgres terverifikasi (`php artisan db:show`)
+- T0.6 — `CHECK (>= 0)` eksplisit di 15 kolom bekas unsigned (Postgres tidak punya tipe unsigned)
+- T0.7 — `migrate:fresh --seed` bersih dari nol; CHECK constraint terbukti menolak nilai negatif sungguhan
+- T0.8 — Layout Livewire + route `Route::livewire('/', 'beranda')`, HTTP 200 terverifikasi. Ditemukan & diperbaiki: `.gitignore` bertingkat Laravel sempat tidak ikut ter-copy saat merge scaffold, cache runtime sempat ter-commit
+- T0.9 — `php artisan test` lulus 4 test; `phpunit.xml` dialihkan ke database Postgres test terpisah (`gkjj_notula_test`) karena SQLite bawaan tidak kompatibel dengan CHECK constraint T0.6
 
-### ✅ Done Since Last Review
-- Perencanaan selesai: spesifikasi fungsional & skema data ditinjau dan direvisi (MySQL → PostgreSQL 16, kuorum MPL 2/3 → 3/4, hosting cPanel → VPS)
-- `todo.md` (16 sprint) dan `CLAUDE.md` dibuat
-- Migrasi (6 berkas) dan seeder (5 berkas) dari sesi sebelumnya sudah masuk ke `database/`
-- Skill standar Sunartha diambil dari GitLab dan diadaptasi penuh ke stack Laravel/Livewire/PostgreSQL (11 skill di `.claude/commands/`)
+### ⚠️ Blockers Ditemukan Saat Sprint
+| Severity | Item | Resolusi |
+|----------|------|----------|
+| HIGH | Laravel 11 sudah EOL (rilis terakhir v11.55.0, 6 security advisory aktif) — Composer menolak instal | Dikonfirmasi ke pengguna, dinaikkan ke Laravel 12 (masih dipatch, upgrade major historisnya ringan) |
+| MED | Port 5432 bentrok dengan container Postgres project lain di mesin dev | Dipindah ke port 5437 |
+| MED | `.gitignore` bertingkat Laravel ikut terkecualikan saat merge scaffold (T0.2), cache runtime sempat ter-commit | Ditemukan saat T0.8, diperbaiki di commit terpisah |
 
-### ⚠️ Blockers & Risks
-| Severity | Item | Sprint Terdampak |
-|----------|------|-----------------|
-| HIGH | Proyek belum jadi git repository (`git init` belum jalan) — T0.1 belum dikerjakan | Sprint 0 |
-| HIGH | `vendor/` tidak ada — Laravel belum di-scaffold sama sekali (`composer create-project` belum jalan) — T0.2 | Sprint 0 |
-| MED | `.env` tidak ada | Sprint 0 |
-| MED | `docker-compose.yml` (Postgres lokal) belum ada — T0.4 | Sprint 0 |
-| LOW | `package.json` belum ada (belum relevan sebelum scaffold) | Sprint 0 |
-
-_Catatan: semua ini **diharapkan** pada tahap ini — sesi kerja sejauh ini murni perencanaan & tooling, belum masuk eksekusi Sprint 0. Ditandai AT RISK bukan sebagai alarm, tapi supaya laporan PM berikutnya punya baseline yang jelas: kalau blocker ini masih ada di review berikutnya, itu baru benar-benar berisiko._
-
-### 💡 Rekomendasi PM
-1. Jalankan `/sprint` untuk mulai eksekusi Sprint 0 — T0.1 (`git init`) adalah tugas pertama, semua tugas lain di Sprint 0 bergantung padanya
-2. Setelah T0.1–T0.2 selesai (repo + scaffold Laravel ada), `/devops` akan mulai memberi hasil yang berarti — sebelum itu, sebagian besar pengecekannya cuma melaporkan "belum ada" yang memang sudah diketahui
-3. Tidak ada rekomendasi terkait Sprint 14/15 — masih jauh, gerbang manusia belum relevan
+Semua blocker teratasi — tidak ada yang terbawa ke Sprint 1.
 
 ### 🏃 Next
-Sprint 0 — T0.1: `git init`
+Sprint 1 — Autentikasi & Akun (F1-C01–C05)
 
 ---
