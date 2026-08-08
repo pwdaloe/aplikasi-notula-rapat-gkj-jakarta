@@ -30,7 +30,7 @@ Peta kerja untuk sesi otonom (`/loop`). Setiap sprint memetakan langsung ke bagi
 
 Keputusan berikut sudah dikunci lewat diskusi sebelumnya — lihat `CLAUDE.md` dan `docs/` untuk rincian dan alasannya. Jangan diubah begitu saja saat coding:
 
-- Laravel 11, Blade + Livewire, **PostgreSQL 16** (bukan MySQL — spesifikasi asli sudah direvisi, lihat `docs/skema-data-fase-1.md`)
+- **Laravel 12** (bukan 11 — Laravel 11 EOL per 8 Agustus 2026, rilis terakhir v11.55.0 dengan 6 security advisory aktif tak tertutup; direvisi saat eksekusi T0.2), Blade + Livewire, **PostgreSQL 16** (bukan MySQL — spesifikasi asli sudah direvisi, lihat `docs/skema-data-fase-1.md`)
 - Hosting: **VPS** 2GB bersama dengan Database-Warga-GKJJ (bukan shared hosting cPanel), database Postgres baru di server yang sama, bukan mesin database kedua
 - PDF: **dompdf saja** — dilarang Browsershot/Puppeteer
 - Session, queue, cache: driver `database`
@@ -47,7 +47,7 @@ Keputusan berikut sudah dikunci lewat diskusi sebelumnya — lihat `CLAUDE.md` d
 **Tujuan:** proyek Laravel jalan lokal, tersambung Postgres, migrasi & seeder yang sudah ada berhasil dijalankan.
 
 - [ ] T0.1 — `git init`, `.gitignore` standar Laravel, commit awal (docs/, database/ yang sudah ada)
-- [ ] T0.2 — `composer create-project laravel/laravel:^11.0` di root proyek. **Jangan timpa** `database/migrations` dan `database/seeders` yang sudah ada — pindahkan isi hasil scaffold bawaan Laravel yang bentrok, satukan dengan yang sudah ada
+- [ ] T0.2 — `composer create-project laravel/laravel` (Laravel 12 — lihat catatan revisi versi di atas) di root proyek. **Jangan timpa** `database/migrations` dan `database/seeders` yang sudah ada — pindahkan isi hasil scaffold bawaan Laravel yang bentrok, satukan dengan yang sudah ada
 - [ ] T0.3 — `composer require livewire/livewire barryvdh/laravel-dompdf`
 - [ ] T0.4 — `docker-compose.yml` lokal: service `postgres:16`, database `gkjj_notula`, port map ke 5432, volume persisten
 - [ ] T0.5 — `.env`: `DB_CONNECTION=pgsql`, host/port sesuai docker-compose, `SESSION_DRIVER=database`, `QUEUE_CONNECTION=database`, `CACHE_STORE=database`, `APP_TIMEZONE=Asia/Jakarta`, `APP_LOCALE=id`, `SANDI_AWAL=` (isi nilai dev sendiri, jangan commit)

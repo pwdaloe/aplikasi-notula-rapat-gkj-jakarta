@@ -4,7 +4,7 @@
 **Versi:** 1.0
 **Tanggal:** 7 Agustus 2026
 **Rujukan:** Poin Hasil Diskusi v0.8
-**Stack:** Laravel 11 + PostgreSQL 16 + Blade/Livewire, VPS (bukan shared hosting cPanel — direvisi setelah dikonfirmasi hosting sebenarnya adalah VPS 2GB yang sama dengan Database-Warga-GKJJ)
+**Stack:** Laravel 12 + PostgreSQL 16 + Blade/Livewire, VPS (bukan shared hosting cPanel — direvisi setelah dikonfirmasi hosting sebenarnya adalah VPS 2GB yang sama dengan Database-Warga-GKJJ). Laravel versi dinaikkan dari 11 ke 12 pada 8 Agustus 2026 — Laravel 11 sudah *end-of-life* (rilis terakhir v11.55.0) dengan 6 *security advisory* aktif yang tidak akan ditutup lagi di rentang 11.x manapun.
 
 ---
 

@@ -15,7 +15,7 @@ Jangan mengubah ini tanpa keputusan eksplisit dari pengguna — semuanya hasil d
 
 | Hal | Keputusan | Kenapa |
 |---|---|---|
-| Framework | Laravel 11, Blade + Livewire | Ditulis di spesifikasi asli |
+| Framework | **Laravel 12**, Blade + Livewire | Spesifikasi asli menulis Laravel 11, tapi per 8 Agustus 2026 Laravel 11 sudah EOL (rilis terakhir v11.55.0, 6 security advisory aktif tak tertutup di seluruh rentang 11.x) — dinaikkan ke 12 saat eksekusi T0.2. Upgrade major Laravel historisnya ringan; tidak ada bagian spesifikasi yang bergantung pada API spesifik 11 |
 | Database | **PostgreSQL 16** | VPS sudah menjalankan Postgres 16 untuk app sebelah (Database-Warga-GKJJ); direvisi dari MySQL 8 yang tertulis di spesifikasi v1.0 asli |
 | Hosting | **VPS** 2GB (Domainesia), bareng Database-Warga-GKJJ, bukan shared hosting cPanel | Dikonfirmasi pengguna — repo https://github.com/pwdaloe/Database-Warga-GKJJ jalan di VPS yang sama |
 | PDF | dompdf saja | Browsershot/Puppeteer dilarang eksplisit di spesifikasi (dan tetap berisiko RAM di VPS 2GB meski secara teknis sekarang boleh) |
