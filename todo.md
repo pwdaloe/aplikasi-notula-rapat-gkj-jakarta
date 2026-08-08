@@ -18,9 +18,9 @@ Peta kerja untuk sesi otonom (`/loop`). Setiap sprint memetakan langsung ke bagi
 
 ## Status
 
-- **Sprint aktif:** Sprint 0
-- **Tugas berikutnya:** T0.1
-- **Terakhir dikerjakan:** — (belum mulai)
+- **Sprint aktif:** Sprint 1
+- **Tugas berikutnya:** T1.1
+- **Terakhir dikerjakan:** 8 Agustus 2026 — Sprint 0 selesai penuh (T0.1–T0.9), semua kriteria terima lulus verifikasi nyata. Naik versi Laravel 11→12 saat eksekusi (11 sudah EOL).
 - **Diblokir menunggu manusia:** — (kosong)
 - **Gerbang manusia wajib:** sebelum T14.1 (deploy VPS) dan sebelum T15.1 (UAT di hosting sasaran) — lihat aturan #9 di atas
 
@@ -46,17 +46,17 @@ Keputusan berikut sudah dikunci lewat diskusi sebelumnya — lihat `CLAUDE.md` d
 
 **Tujuan:** proyek Laravel jalan lokal, tersambung Postgres, migrasi & seeder yang sudah ada berhasil dijalankan.
 
-- [ ] T0.1 — `git init`, `.gitignore` standar Laravel, commit awal (docs/, database/ yang sudah ada)
-- [ ] T0.2 — `composer create-project laravel/laravel` (Laravel 12 — lihat catatan revisi versi di atas) di root proyek. **Jangan timpa** `database/migrations` dan `database/seeders` yang sudah ada — pindahkan isi hasil scaffold bawaan Laravel yang bentrok, satukan dengan yang sudah ada
-- [ ] T0.3 — `composer require livewire/livewire barryvdh/laravel-dompdf`
-- [ ] T0.4 — `docker-compose.yml` lokal: service `postgres:16`, database `gkjj_notula`, port map ke 5432, volume persisten
-- [ ] T0.5 — `.env`: `DB_CONNECTION=pgsql`, host/port sesuai docker-compose, `SESSION_DRIVER=database`, `QUEUE_CONNECTION=database`, `CACHE_STORE=database`, `APP_TIMEZONE=Asia/Jakarta`, `APP_LOCALE=id`, `SANDI_AWAL=` (isi nilai dev sendiri, jangan commit)
-- [ ] T0.6 — Tambahkan `CHECK (>= 0)` eksplisit ke migrasi yang punya kolom bekas unsigned (lihat daftar di `docs/skema-data-fase-1.md` catatan revisi): `sidang.nomor`, semua `*.urutan`, semua `*.versi`, `agenda_lampiran.ukuran`, `notula_adendum.nomor`, `jejak_audit.model_id`
-- [ ] T0.7 — `php artisan migrate --seed` berhasil tanpa error di Postgres lokal (verifikasi nyata — jalankan sungguhan, jangan diasumsikan)
-- [ ] T0.8 — Layout dasar Blade + Livewire terpasang, `php artisan serve` menampilkan halaman kosong tanpa error
-- [ ] T0.9 — Setup testing: Pest atau PHPUnit jalan (`php artisan test` lulus dengan test bawaan)
+- [x] T0.1 — `git init`, `.gitignore` standar Laravel, commit awal (docs/, database/ yang sudah ada). Remote `origin` → https://github.com/pwdaloe/aplikasi-notula-rapat-gkj-jakarta
+- [x] T0.2 — `composer create-project laravel/laravel` **(Laravel 12, bukan 11 — direvisi saat eksekusi, lihat "Aturan main" di atas)** di root proyek, digabung dengan `database/migrations` dan `database/seeders` yang sudah ada tanpa ditimpa
+- [x] T0.3 — `composer require livewire/livewire barryvdh/laravel-dompdf` (Livewire v4.3.5, laravel-dompdf v3.1.2)
+- [x] T0.4 — `docker-compose.yml` lokal: `postgres:16`, database `gkjj_notula`, **port host 5437** (bukan 5432 — bentrok dengan `gkjj-postgres` milik Database-Warga-GKJJ dan project lain di mesin dev ini), volume persisten
+- [x] T0.5 — `.env` terkonfigurasi sesuai rencana; `php artisan db:show` mengonfirmasi koneksi ke Postgres 16.14 nyata
+- [x] T0.6 — `CHECK (>= 0)` eksplisit ditambahkan ke 15 kolom bekas unsigned di 4 berkas migrasi (sidang, artikel_template_baris, artikel, agenda, agenda_lampiran, masukan, masukan_poin, masukan_sebutan, notula, notula_adendum, jejak_audit)
+- [x] T0.7 — `php artisan migrate --seed` dan `migrate:fresh --seed` berhasil bersih di Postgres lokal — diverifikasi nyata, termasuk CHECK constraint benar-benar menolak nilai negatif (dicoba insert `nomor: -5`, ditolak)
+- [x] T0.8 — Layout Livewire (`layouts/app.blade.php`) + komponen `beranda`, route via `Route::livewire('/', 'beranda')`; `php artisan serve` → HTTP 200 terverifikasi via curl. **Ditemukan & diperbaiki saat ini:** merge T0.2 sempat mengecualikan seluruh `.gitignore` bertingkat milik Laravel (bukan cuma yang di root), sehingga cache runtime sempat ter-commit — sudah diperbaiki
+- [x] T0.9 — `php artisan test` lulus (4 test). `phpunit.xml` dialihkan ke Postgres (`gkjj_notula_test`, database terpisah dari dev) karena SQLite bawaan tidak bisa menjalankan CHECK constraint Postgres-spesifik dari T0.6 — ditambah `DatabaseSmokeTest` sebagai regresi permanen
 
-**Kriteria terima:** `php artisan migrate:fresh --seed` bersih dari nol, 3 akun awal (Administrator, Pnt. Jennie PS, Pnt. Heru) ada di tabel `users` dengan peran benar.
+**Kriteria terima:** ✅ `php artisan migrate:fresh --seed` bersih dari nol, 3 akun awal (Administrator, Pnt. Jennie PS, Pnt. Heru) ada di tabel `users` dengan peran benar — diverifikasi lewat tinker: `admin`, `sekretaris`+`anggota` ×2, `harus_ganti_sandi` aktif semua.
 
 ---
 
