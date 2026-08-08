@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
@@ -95,6 +96,14 @@ return new class extends Migration
 
             $table->unique(['sidang_id', 'user_id']);
         });
+
+        // Postgres tidak punya tipe integer unsigned — lihat catatan yang sama
+        // di 2026_08_08_000300_create_sidang_tables.php.
+        DB::statement('ALTER TABLE masukan ADD CONSTRAINT masukan_urutan_check CHECK (urutan >= 0)');
+        DB::statement('ALTER TABLE masukan ADD CONSTRAINT masukan_versi_check CHECK (versi >= 0)');
+        DB::statement('ALTER TABLE masukan_poin ADD CONSTRAINT masukan_poin_urutan_check CHECK (urutan >= 0)');
+        DB::statement('ALTER TABLE masukan_poin ADD CONSTRAINT masukan_poin_versi_check CHECK (versi >= 0)');
+        DB::statement('ALTER TABLE masukan_sebutan ADD CONSTRAINT masukan_sebutan_posisi_check CHECK (posisi IS NULL OR posisi >= 0)');
     }
 
     public function down(): void

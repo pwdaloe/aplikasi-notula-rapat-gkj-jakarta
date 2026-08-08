@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
@@ -94,6 +95,11 @@ return new class extends Migration
 
             $table->index('sidang_id');
         });
+
+        // Postgres tidak punya tipe integer unsigned — lihat catatan yang sama
+        // di 2026_08_08_000300_create_sidang_tables.php.
+        DB::statement('ALTER TABLE notula ADD CONSTRAINT notula_versi_check CHECK (versi >= 0)');
+        DB::statement('ALTER TABLE notula_adendum ADD CONSTRAINT notula_adendum_nomor_check CHECK (nomor >= 0)');
     }
 
     public function down(): void

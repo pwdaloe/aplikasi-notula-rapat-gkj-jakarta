@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
@@ -139,6 +140,19 @@ return new class extends Migration
         Schema::table('sidang', function (Blueprint $table) {
             $table->foreign('butir_aktif_id')->references('id')->on('agenda')->nullOnDelete();
         });
+
+        // Postgres tidak punya tipe integer unsigned — kolom di atas yang
+        // ditulis unsignedInteger/unsignedSmallInteger/unsignedBigInteger
+        // kehilangan proteksi "tidak boleh negatif" itu secara diam-diam.
+        // CHECK berikut mengembalikan proteksinya secara eksplisit.
+        // (butir_aktif_id tidak perlu CHECK terpisah — sudah dijaga foreign key di atas.)
+        DB::statement('ALTER TABLE artikel_template_baris ADD CONSTRAINT artikel_template_baris_urutan_check CHECK (urutan >= 0)');
+        DB::statement('ALTER TABLE sidang ADD CONSTRAINT sidang_nomor_check CHECK (nomor >= 0)');
+        DB::statement('ALTER TABLE sidang ADD CONSTRAINT sidang_versi_check CHECK (versi >= 0)');
+        DB::statement('ALTER TABLE artikel ADD CONSTRAINT artikel_urutan_check CHECK (urutan >= 0)');
+        DB::statement('ALTER TABLE agenda ADD CONSTRAINT agenda_urutan_check CHECK (urutan >= 0)');
+        DB::statement('ALTER TABLE agenda ADD CONSTRAINT agenda_versi_check CHECK (versi >= 0)');
+        DB::statement('ALTER TABLE agenda_lampiran ADD CONSTRAINT agenda_lampiran_ukuran_check CHECK (ukuran >= 0)');
     }
 
     public function down(): void

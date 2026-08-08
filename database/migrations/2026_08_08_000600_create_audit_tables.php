@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
@@ -36,6 +37,10 @@ return new class extends Migration
             $table->index(['model_tipe', 'model_id']);
             $table->index('created_at');
         });
+
+        // Postgres tidak punya tipe integer unsigned — lihat catatan yang sama
+        // di 2026_08_08_000300_create_sidang_tables.php.
+        DB::statement('ALTER TABLE jejak_audit ADD CONSTRAINT jejak_audit_model_id_check CHECK (model_id >= 0)');
     }
 
     public function down(): void
