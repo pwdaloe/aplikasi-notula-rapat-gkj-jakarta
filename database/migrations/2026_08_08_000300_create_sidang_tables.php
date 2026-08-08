@@ -23,7 +23,7 @@ return new class extends Migration
             $table->unsignedSmallInteger('urutan');
             $table->string('judul');
             $table->enum('tipe', ['pembukaan', 'presensi', 'agenda', 'tindak_lanjut', 'penutup'])
-                  ->default('agenda');
+                ->default('agenda');
             $table->timestamps();
 
             $table->index(['template_id', 'urutan']);
@@ -72,7 +72,7 @@ return new class extends Migration
             $table->unsignedSmallInteger('urutan');
             $table->string('judul');
             $table->enum('tipe', ['pembukaan', 'presensi', 'agenda', 'tindak_lanjut', 'penutup'])
-                  ->default('agenda');
+                ->default('agenda');
             $table->timestamps();
 
             $table->index(['sidang_id', 'urutan']);
@@ -98,7 +98,7 @@ return new class extends Migration
             $table->boolean('pra_mpl')->default(false);
 
             $table->enum('status', ['baru', 'dibahas', 'ditunda', 'dikembalikan', 'selesai'])
-                  ->default('baru');
+                ->default('baru');
 
             // Dipakai bila notulis sidang harus dikeluarkan dari butir tertutup
             // karena ia pihak dalam perkara.

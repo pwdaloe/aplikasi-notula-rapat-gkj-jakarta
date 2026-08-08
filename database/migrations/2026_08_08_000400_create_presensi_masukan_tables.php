@@ -14,7 +14,7 @@ return new class extends Migration
             $table->foreignId('sidang_id')->constrained('sidang')->cascadeOnDelete();
             $table->foreignId('user_id')->constrained('users')->cascadeOnDelete();
             $table->enum('status', ['hadir', 'terlambat', 'izin', 'sakit', 'tanpa_keterangan'])
-                  ->default('tanpa_keterangan');
+                ->default('tanpa_keterangan');
             $table->string('catatan')->nullable();
             $table->foreignId('dicatat_oleh')->nullable()->constrained('users')->nullOnDelete();
             $table->timestamps();
@@ -47,7 +47,7 @@ return new class extends Migration
             $table->foreignId('peserta_manual_id')->nullable()->constrained('peserta_manual')->nullOnDelete();
 
             $table->enum('jenis', ['usulan', 'pertanyaan', 'keberatan', 'dukungan', 'informasi'])
-                  ->default('informasi');
+                ->default('informasi');
             $table->dateTime('waktu');
             $table->unsignedSmallInteger('urutan')->default(0);
             $table->unsignedInteger('versi')->default(1);

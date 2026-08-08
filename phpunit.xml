@@ -23,8 +23,17 @@
         <env name="BCRYPT_ROUNDS" value="4"/>
         <env name="BROADCAST_CONNECTION" value="null"/>
         <env name="CACHE_STORE" value="array"/>
-        <env name="DB_CONNECTION" value="sqlite"/>
-        <env name="DB_DATABASE" value=":memory:"/>
+        <!-- SQLite (bawaan skeleton Laravel) sengaja diganti Postgres di sini.
+             Migrasi project ini pakai raw SQL Postgres spesifik (CHECK constraint
+             lewat DB::statement di T0.6, enum via CHECK di Postgres grammar) yang
+             tidak jalan di SQLite. Database gkjj_notula_test terpisah dari
+             database dev gkjj_notula, lihat CLAUDE.md dan qa.md. -->
+        <env name="DB_CONNECTION" value="pgsql"/>
+        <env name="DB_HOST" value="127.0.0.1"/>
+        <env name="DB_PORT" value="5437"/>
+        <env name="DB_DATABASE" value="gkjj_notula_test"/>
+        <env name="DB_USERNAME" value="gkjj_notula"/>
+        <env name="DB_PASSWORD" value="gkjj_notula_dev"/>
         <env name="DB_URL" value=""/>
         <env name="MAIL_MAILER" value="array"/>
         <env name="QUEUE_CONNECTION" value="sync"/>

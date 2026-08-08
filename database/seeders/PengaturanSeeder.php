@@ -31,9 +31,9 @@ class PengaturanSeeder extends Seeder
 
         foreach ($pengaturan as [$kunci, $nilai, $tipe, $ket]) {
             DB::table('pengaturan')->insert([
-                'kunci'      => $kunci,
-                'nilai'      => $nilai,
-                'tipe'       => $tipe,
+                'kunci' => $kunci,
+                'nilai' => $nilai,
+                'tipe' => $tipe,
                 'keterangan' => $ket,
                 'created_at' => now(),
                 'updated_at' => now(),
@@ -41,13 +41,13 @@ class PengaturanSeeder extends Seeder
         }
 
         DB::table('profil_gereja')->insert([
-            'nama'                => 'Gereja Kristen Jawa Jakarta',
-            'kota_surat'          => 'Jakarta',
-            'ketua_jabatan'       => 'Ketua Majelis',
-            'sekretaris_nama'     => 'Pnt. Jennie PS',
-            'sekretaris_jabatan'  => 'Sekretaris Majelis',
-            'created_at'          => now(),
-            'updated_at'          => now(),
+            'nama' => 'Gereja Kristen Jawa Jakarta',
+            'kota_surat' => 'Jakarta',
+            'ketua_jabatan' => 'Ketua Majelis',
+            'sekretaris_nama' => 'Pnt. Jennie PS',
+            'sekretaris_jabatan' => 'Sekretaris Majelis',
+            'created_at' => now(),
+            'updated_at' => now(),
         ]);
     }
 }

@@ -47,21 +47,21 @@ class ArtikelTemplateSeeder extends Seeder
     private function buat(string $nama, string $jenis, bool $bawaan, array $baris): void
     {
         $templateId = DB::table('artikel_template')->insertGetId([
-            'nama'        => $nama,
+            'nama' => $nama,
             'jenis_rapat' => $jenis,
-            'bawaan'      => $bawaan,
-            'created_at'  => now(),
-            'updated_at'  => now(),
+            'bawaan' => $bawaan,
+            'created_at' => now(),
+            'updated_at' => now(),
         ]);
 
         foreach ($baris as $i => [$judul, $tipe]) {
             DB::table('artikel_template_baris')->insert([
                 'template_id' => $templateId,
-                'urutan'      => $i + 1,
-                'judul'       => $judul,
-                'tipe'        => $tipe,
-                'created_at'  => now(),
-                'updated_at'  => now(),
+                'urutan' => $i + 1,
+                'judul' => $judul,
+                'tipe' => $tipe,
+                'created_at' => now(),
+                'updated_at' => now(),
             ]);
         }
     }

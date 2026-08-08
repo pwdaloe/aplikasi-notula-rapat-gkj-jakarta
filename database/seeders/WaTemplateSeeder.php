@@ -44,10 +44,10 @@ TEKS;
 
         foreach ($daftar as [$kode, $judul, $isi]) {
             DB::table('wa_template')->insert([
-                'kode'       => $kode,
-                'judul'      => $judul,
-                'isi'        => $isi,
-                'aktif'      => true,
+                'kode' => $kode,
+                'judul' => $judul,
+                'isi' => $isi,
+                'aktif' => true,
                 'created_at' => now(),
                 'updated_at' => now(),
             ]);

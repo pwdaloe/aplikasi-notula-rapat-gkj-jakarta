@@ -20,41 +20,41 @@ class PenggunaAwalSeeder extends Seeder
 
         $daftar = [
             [
-                'nama'    => 'Administrator',
+                'nama' => 'Administrator',
                 'sebutan' => null,
-                'no_hp'   => '628129055464',
-                'peran'   => ['admin'],
+                'no_hp' => '628129055464',
+                'peran' => ['admin'],
             ],
             [
-                'nama'    => 'Jennie PS',
+                'nama' => 'Jennie PS',
                 'sebutan' => 'Pnt.',
-                'no_hp'   => '6285715060425',
-                'peran'   => ['sekretaris', 'anggota'],
+                'no_hp' => '6285715060425',
+                'peran' => ['sekretaris', 'anggota'],
             ],
             [
-                'nama'    => 'Heru',
+                'nama' => 'Heru',
                 'sebutan' => 'Pnt.',
-                'no_hp'   => '6281317763070',
-                'peran'   => ['sekretaris', 'anggota'],
+                'no_hp' => '6281317763070',
+                'peran' => ['sekretaris', 'anggota'],
             ],
         ];
 
         foreach ($daftar as $orang) {
             $userId = DB::table('users')->insertGetId([
-                'nama'              => $orang['nama'],
-                'sebutan'           => $orang['sebutan'],
-                'no_hp'             => $orang['no_hp'],
-                'password'          => $sandi,
+                'nama' => $orang['nama'],
+                'sebutan' => $orang['sebutan'],
+                'no_hp' => $orang['no_hp'],
+                'password' => $sandi,
                 'harus_ganti_sandi' => true,
-                'aktif'             => true,
-                'created_at'        => now(),
-                'updated_at'        => now(),
+                'aktif' => true,
+                'created_at' => now(),
+                'updated_at' => now(),
             ]);
 
             foreach ($orang['peran'] as $peran) {
                 DB::table('peran_pengguna')->insert([
-                    'user_id'    => $userId,
-                    'peran'      => $peran,
+                    'user_id' => $userId,
+                    'peran' => $peran,
                     'created_at' => now(),
                     'updated_at' => now(),
                 ]);
