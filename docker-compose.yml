@@ -1,0 +1,29 @@
+# Untuk pengembangan LOKAL saja. Produksi (VPS, Sprint 14) menjalankan
+# PostgreSQL native, bukan lewat Docker — lihat CLAUDE.md.
+#
+# Versi Postgres disamakan dengan yang sudah berjalan di VPS produksi
+# (dipakai bersama Database-Warga-GKJJ) supaya perilaku lokal dan
+# produksi konsisten.
+services:
+  postgres:
+    image: postgres:16
+    container_name: notula_postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: gkjj_notula
+      POSTGRES_USER: gkjj_notula
+      POSTGRES_PASSWORD: gkjj_notula_dev
+    ports:
+      # Host 5437 (bukan 5432 default) — 5432-5436 sudah dipakai project lain
+      # di mesin dev ini (termasuk gkjj-postgres milik Database-Warga-GKJJ).
+      - "5437:5432"
+    volumes:
+      - notula_pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U gkjj_notula -d gkjj_notula"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+volumes:
+  notula_pgdata:
